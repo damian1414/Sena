@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="producto" pageWidth="595" pageHeight="842" columnWidth="505" leftMargin="10" rightMargin="80" topMargin="20" bottomMargin="20" uuid="a879c325-9952-49a5-8ac5-03705638623f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Users\\Ingenian Software\\Desktop\\Factura\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cantidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[cantidad]]></fieldDescription>
+	</field>
+	<field name="codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[codigo]]></fieldDescription>
+	</field>
+	<field name="color" class="java.lang.String">
+		<fieldDescription><![CDATA[color]]></fieldDescription>
+	</field>
+	<field name="idProducto" class="java.lang.Integer">
+		<fieldDescription><![CDATA[idProducto]]></fieldDescription>
+	</field>
+	<field name="precioCompra" class="java.lang.Long">
+		<fieldDescription><![CDATA[precioCompra]]></fieldDescription>
+	</field>
+	<field name="marca" class="java.lang.String">
+		<fieldDescription><![CDATA[marca]]></fieldDescription>
+	</field>
+	<field name="precioVenta" class="java.lang.Long">
+		<fieldDescription><![CDATA[precioVenta]]></fieldDescription>
+	</field>
+	<field name="referencia" class="java.lang.String">
+		<fieldDescription><![CDATA[referencia]]></fieldDescription>
+	</field>
+	<field name="talla" class="java.lang.String">
+		<fieldDescription><![CDATA[talla]]></fieldDescription>
+	</field>
+	<field name="tipoProducto" class="com.prueba.model.TipoProducto">
+		<fieldDescription><![CDATA[tipoProducto]]></fieldDescription>
+	</field>
+	<title>
+		<band height="18" splitType="Stretch"/>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="7b3a7606-c123-41fd-9dee-5b904d2a7ba3" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="411" height="21" forecolor="#000000" backcolor="#1097B9"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="9ddb8111-6530-4885-8b63-a82ca5a9cac4" x="296" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e897d1dc-f957-4caf-a054-5e836899ebe1" x="4" y="1" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8c4eabf8-6c47-402b-b50d-ab37e5263971" x="163" y="1" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="43a8751b-8152-4431-a770-9d87c747fad3" x="0" y="0" width="411" height="28"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="76e4a9b4-a0c8-40a8-8e87-5d54582f63b8" positionType="Float" stretchType="RelativeToTallestObject" x="162" y="0" width="100" height="20"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="ffae2040-81fa-4464-9b16-792ac75da5b8" positionType="Float" stretchType="RelativeToTallestObject" x="296" y="0" width="100" height="20"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precioCompra}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="690796e7-c4c4-487d-ae8c-30e3d280a56c" positionType="Float" stretchType="RelativeToTallestObject" x="4" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoProducto}.getNombre()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

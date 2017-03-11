@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Seleccionar Productos</title>
+		</f:facet>
+		<h:outputStylesheet library="css" name="menu.css" />
+	</h:head>
+
+	<ui:composition template="./../../WEB-INF/templates/plantilla2.xhtml">
+
+		<ui:define name="bodyJR">
+
+			<h:form id="frmPrincipal">
+
+				<div id="grande">
+					<div align="center" id="principal">Seleccionar Productos</div>
+					<br></br> <br></br>
+					<p:dataTable id="tablaP" emptyMessage="Ningún producto registrado"
+						value="#{ventasController.listaProducto}" var="prd">
+
+						<p:column headerText="Producto" filterMatchMode="contains">
+
+							<h:outputText value="#{prd.tipoProducto.nombre}" />
+						</p:column>
+
+						<p:column headerText="Marca" filterMatchMode="contains">
+							<h:outputText value="#{prd.marca}" />
+						</p:column>
+
+						<p:column headerText="Referencia" filterMatchMode="contains">
+							<h:outputText value="#{prd.referencia}" />
+						</p:column>
+
+						<p:column headerText="Color" filterMatchMode="contains">
+							<h:outputText value="#{prd.color}" />
+						</p:column>
+
+						<p:column headerText="Talla" filterMatchMode="contains">
+							<h:outputText value="#{prd.talla}" />
+						</p:column>
+
+
+						<p:column headerText="Opciones">
+
+							<!-- <p:commandLink id="pld" onclick="PF('wdialog').show();" c >
+									 <h:graphicImage  library="images" name="descargar-carrito.png" /> 
+						</p:commandLink> -->
+
+							<p:commandLink onclick="PF('wdialog').show();"
+								actionListener="#{ventasController.leerProducto(prd)}"
+								update=":frmSecundario">
+								<h:graphicImage library="images" name="descargar-carrito.png" />
+
+							</p:commandLink>
+							
+							
+							
+							
+						</p:column>
+
+					</p:dataTable>
+
+
+				</div>
+			</h:form>
+
+
+
+			<p:dialog id="dialogo" widgetVar="wdialog" appendTo="@(body)"
+				header="Cantidad Venta" modal="true" resizable="false"
+				closeOnEscape="true" showEffect="true">
+
+				<h:form id="frmSecundario">
+					<p:growl id="mensaje" autoUpdate="true" severity="info, fatal"
+						showSummary="true" showDetail="true" />
+					<p:panelGrid id="p1" columns="3">
+						<!-- <h:inputHidden  value="#{ventasController.productoVenta}" /> -->
+
+						<p:outputLabel for="txtCantidad" value="Cantidad" />
+						<p:inputText id="txtCantidad" required="true"
+							value="#{ventasController.cantidad}"
+							requiredMessage="Campo requerido" >
+							<f:validateLength minimum="2" for="Integer" />
+							</p:inputText>
+							
+						<p:messages for="txtCantidad" />
+
+
+					</p:panelGrid>
+					<p:commandButton value="Registrar Cantidad"
+						update=":totalVenta:ventaTotal, :frmPrincipal:tablaP :vCliente:panelDetalle" icon="fa fa-fw fa-save"
+						actionListener="#{ventasController.registrarCantidad()}"
+						>
+					</p:commandButton>
+					
+					<p:commandButton value="Cancelar"
+						actionListener="#{ventasController.cancelarCantidad()}"
+						icon="fa fw-fa fa-times-circle" immediate="true"
+						onclick="PF('wdialog').hide();" update="p1" />
+				</h:form>
+			</p:dialog>
+
+
+			<br></br>
+			<br></br>
+			<!-- <div id="uno">
+			 -->
+			<h:form id="vCliente">
+			<p:panel id="panelDetalle"  visible="#{ventasController.estado !=0}" >
+				<div align="center" id="detalleVenta1">Detalle Venta</div>
+				<p:dataTable id="tabla" emptyMessage="Ningún Producto Seleccionado"  paginator="true" rows="3"
+					value="#{ventasController.productoVenta.listaProductos}" var="pv">
+
+					<p:column headerText="Producto" filterMatchMode="contains">
+
+						<h:outputText value="#{pv.tipoProducto.nombre}" />
+					</p:column>
+
+					<p:column headerText="Cantidad" filterMatchMode="contains">
+						<h:outputText value="#{pv.cantidad}" />
+					</p:column>
+
+					<p:column headerText="Precio" filterMatchMode="contains">
+						<h:outputText value="#{pv.precioCompra}">
+							<f:convertNumber minIntegerDigits="2" />
+						</h:outputText>
+
+					</p:column>
+
+
+					<p:column headerText="Opciones">
+
+						<p:commandLink id="pld" update=":vCliente:tabla, :totalVenta:ventaTotal, :frmPrincipal:tablaP"
+							actionListener="#{ventasController.eliminarRegistro(pv)}">
+							<h:graphicImage library="images" name="delete2.png" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+				</p:panel>
+			</h:form>
+			
+			<!-- </div>
+			<div id="dos" > -->
+			<h:form id="totalVenta">
+			<p:panel id="panelTotal" visible="#{ventasController.estado !=0}"  styleClass="ui-panelgrid-blank">
+				<!-- <div align="center" id="detalleVenta">TotalVenta</div> -->
+				<p:dataTable  id="ventaTotal" emptyMessage="Ningún Producto Seleccionado"
+						value="#{ventasController.productoVenta}" var="pv1">
+						
+						<center>
+							<p:column headerText="Total Ventas"  filterMatchMode="contains" >
+	
+								<h:outputText value="#{pv1.total}" >
+									<f:convertNumber minIntegerDigits="2" />
+								</h:outputText>
+							</p:column>
+					</center>
+						
+
+					</p:dataTable>
+					
+					<p:commandLink id="guardarVetnta" update=":vCliente:tabla, :totalVenta:ventaTotal, :frmPrincipal:tablaP"
+							actionListener="#{ventasController.registrarVenta()}">
+							<h:graphicImage library="images" name="vendido.png" />
+						</p:commandLink>
+						
+						<!-- <p:commandButton actionListener="#{ventasController}">
+							<h:graphicImage library="images" name="vendido.png" />
+						</p:commandButton>
+						 -->
+						 <h:commandButton id="generarReporte" value="Vender" actionListener="#{ventasController.crearReporte()}" >
+							
+						</h:commandButton> 
+						
+						<p:commandButton id="dda" actionListener="#{ventasController.registrarVenta()}" value="rr">
+						</p:commandButton>
+				</p:panel>
+			</h:form>
+			<!-- </div> -->
+
+		</ui:define>
+
+
+	</ui:composition>
+</f:view>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<h:head>
+		<h:outputStylesheet library="css" name="menu.css" />
+	</h:head>
+
+	<ui:composition template="./../../WEB-INF/templates/plantilla2.xhtml">
+
+		<ui:define name="bodyJR">
+
+			<h:form id="frmPrincipal">
+
+				<div id="grande">
+					<div align="center" id="principal">
+						Empleado
+					</div>
+					
+				<div align="right" id="divBoton">	
+					<p:commandLink
+						oncomplete="PF('wdialog').show();"   
+						actionListener="#{usuarioController.cambiarAccion()}"
+						update="dialogo" >
+						<h:graphicImage  library="images" name="add.png" /> 
+						
+						</p:commandLink>
+
+					</div>
+					<p:dataTable id="tabla" emptyMessage="Ningún empleado registrado"
+						value="#{usuarioController.listaUsuarios}" var="us">
+
+						<p:column headerText="Nombre" 
+							filterMatchMode="contains">
+
+							<h:outputText value="#{us.usuario}" />
+						</p:column>
+
+						<p:column headerText="Opciones">
+
+							<div id="uno">
+								<p:commandLink 
+									actionListener="#{usuarioController.leerUsuario(us)}"
+									oncomplete="PF('wdialogEditar').show();" update="dialogo2">
+									 <h:graphicImage  library="images" name="edit22.png" /> 
+								</p:commandLink>
+							</div>
+							
+							<div id="dos">
+
+								<p:commandLink 
+									actionListener="#{usuarioController.eliminar(us)}"
+									update="tabla">
+									<h:graphicImage  library="images" name="borrar.png" />
+								</p:commandLink>
+							</div>
+
+						</p:column>
+
+					</p:dataTable>
+
+
+				</div>
+			</h:form>
+
+			<p:dialog id="dialogo" widgetVar="wdialog" appendTo="@(body)"
+				header="Nuevo Empleado" modal="true" resizable="false"
+				closeOnEscape="true" showEffect="true">
+
+				<h:form id="frmSecundario">
+					<p:growl id="mensaje" autoUpdate="true" severity="info, fatal"
+						showSummary="true" showDetail="true" />
+					<p:panelGrid id="uno" columns="3">
+
+
+
+						<p:outputLabel for="txtNombre" value="Nombre" />
+						<p:inputText id="txtNombre" required="true"
+							value="#{usuarioController.empleado.nombre}"
+							requiredMessage="Campo requerido" />
+						<p:messages for="txtNombre" />
+
+						<p:outputLabel for="txtApellido" value="Apellido" />
+						<p:inputText id="txtApellido" required="true"
+							value="#{usuarioController.empleado.apellido}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtApellido" />
+
+						<p:outputLabel for="txtDocumento" value="Documento" />
+						<p:inputText id="txtDocumento" required="true"
+							value="#{usuarioController.empleado.documento}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtDocumento" />
+
+						<p:outputLabel for="txtTelefono" value="Telefono" />
+						<p:inputMask id="txtTelefono" mask="9?99999999" slotChar=""
+							required="true" value="#{usuarioController.empleado.telefono}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtTelefono" />
+
+						<p:outputLabel for="txtDirr" value="Dirección" />
+						<p:inputText id="txtDirr" required="true"
+							value="#{usuarioController.empleado.direccion}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtDirr" />
+
+
+						<p:outputLabel for="txtCorreo" value="Correo" />
+						<p:inputText id="txtCorreo" required="true"
+							value="#{usuarioController.empleado.correo}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtCorreo" />
+
+						<p:outputLabel for="lstSucursal" value="Sucursal" />
+						<p:selectOneMenu id="lstSucursal" required="true"
+							value="#{usuarioController.sucursal.idSucursal}"
+							requiredMessage="Campo requerido">
+							<f:selectItem itemLabel="Seleccion"
+								rendered="#{usuarioController.accion == 'R'}"
+								itemValue="#{null}" noSelectionOption="true" />
+							<f:selectItems value="#{usuarioController.listaSucursal}"
+								var="suc" itemValue="#{suc.idSucursal}"
+								itemLabel="#{suc.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstSucursal" />
+
+
+						<p:outputLabel for="lstTipoUsuario" value="Tipo Usuario" />
+						<p:selectOneMenu id="lstTipoUsuario" required="true"
+							value="#{usuarioController.tipoUsuario.idTipoUsuario}"
+							requiredMessage="Campo requerido">
+							<f:selectItem itemLabel="Seleccion" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{usuarioController.listaTipoUsuario}"
+								var="tps" itemValue="#{tps.idTipoUsuario}"
+								itemLabel="#{tps.descripcion}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstTipoUsuario" />
+
+
+						<p:outputLabel for="txtNombreUsuario" value="NombreUsuario" />
+						<p:inputText id="txtNombreUsuario" required="true"
+							value="#{usuarioController.usuario.usuario}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtNombreUsuario" />
+
+						<p:outputLabel for="clave1" value="Clave" />
+						<p:password id="clave1" value="#{usuarioController.usuario.clave}"
+							required="true" match="clave2" feedback="true"
+							promptLabel="Ingrese una clave"
+							validatorMessage="Las claves no coinciden" weakLabel="Débil"
+							strongLabel="Fuerte" goodLabel="Bueno"
+							requiredMessage="Campo requerido" />
+						<p:message for="clave1" />
+
+
+						<p:outputLabel for="clave2" value="Repetir Clave" />
+						<p:password id="clave2" required="true"
+							requiredMessage="Campo requerido" />
+						<p:message for="clave2" />
+
+
+					</p:panelGrid>
+					<p:commandButton value="Registrar"
+						update=":frmPrincipal:tabla, :frmSecundario"
+						icon="fa fa-fw fa-save"
+						actionListener="#{usuarioController.registrar()}" />
+					<p:commandButton value="Cancelar"
+						actionListener="#{usuarioController.limpiar()}"
+						icon="fa fw-fa fa-times-circle" immediate="true"
+						onclick="PF('wdialog').hide();" update="uno" />
+				</h:form>
+			</p:dialog>
+
+			<p:dialog id="dialogo2" widgetVar="wdialogEditar" appendTo="@(body)"
+				header="Modificar Empleado" modal="true" resizable="false"
+				closeOnEscape="true" showEffect="true">
+
+				<h:form id="frmEditar">
+					<p:growl id="mensaje1" autoUpdate="true" severity="info, fatal"
+						showSummary="true" showDetail="true" />
+					<h:inputHidden value="#{usuarioController.empleado.idEmpelado}" />
+					<h:inputHidden value="#{usuarioController.usuario.idUsuario}" />
+					<p:panelGrid id="editar" columns="3">
+
+
+
+						<p:outputLabel for="txtNombreEditar" value="Nombre" />
+						<p:inputText id="txtNombreEditar" required="true"
+							value="#{usuarioController.empleado.nombre}"
+							requiredMessage="Campo requerido" />
+						<p:messages for="txtNombreEditar" />
+
+						<p:outputLabel for="txtApellidoEditar" value="Apellido" />
+						<p:inputText id="txtApellidoEditar" required="true"
+							value="#{usuarioController.empleado.apellido}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtApellidoEditar" />
+
+						<p:outputLabel for="txtDocumentoEditar" value="Documento" />
+						<p:inputText id="txtDocumentoEditar" required="true"
+							value="#{usuarioController.empleado.documento}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtDocumentoEditar" />
+
+						<p:outputLabel for="txtTelefonoEditar" value="Telefono" />
+						<p:inputMask id="txtTelefonoEditar" mask="9?99999999" slotChar=""
+							required="true" value="#{usuarioController.empleado.telefono}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtTelefonoEditar" />
+
+						<p:outputLabel for="txtCorreoEditar" value="Correo" />
+						<p:inputText id="txtCorreoEditar" required="true"
+							value="#{usuarioController.empleado.correo}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtCorreoEditar" />
+
+						<p:outputLabel for="txtDirrEditar" value="Dirección" />
+						<p:inputText id="txtDirrEditar" required="true"
+							value="#{usuarioController.empleado.direccion}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtDirrEditar" />
+
+						<p:outputLabel for="lstSucursalEditar" value="Sucursal" />
+						<p:selectOneMenu id="lstSucursalEditar" required="true"
+							value="#{usuarioController.sucursal.idSucursal}"
+							requiredMessage="Campo requerido">
+							<f:selectItems value="#{usuarioController.listaSucursal}"
+								var="suc" itemValue="#{suc.idSucursal}"
+								itemLabel="#{suc.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstSucursalEditar" />
+
+
+						<p:outputLabel for="lstTipoUsuarioEditar" value="Tipo Usuario" />
+						<p:selectOneMenu id="lstTipoUsuarioEditar" required="true"
+							value="#{usuarioController.tipoUsuario.idTipoUsuario}"
+							requiredMessage="Campo requerido">
+
+							<f:selectItems value="#{usuarioController.listaTipoUsuario}"
+								var="tps" itemValue="#{tps.idTipoUsuario}"
+								itemLabel="#{tps.descripcion}" />
+						</p:selectOneMenu>
+						<p:message for="lstTipoUsuarioEditar" />
+
+
+						<p:outputLabel for="txtNombreUsuarioEditar" value="NombreUsuario" />
+						<p:inputText id="txtNombreUsuarioEditar" required="true"
+							value="#{usuarioController.usuario.usuario}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtNombreUsuarioEditar" />
+					</p:panelGrid>
+					<p:commandButton value="Modificar"
+						update=":frmPrincipal:tabla, :frmEditar" icon="fa fa-fw fa-save"
+						actionListener="#{usuarioController.modificar()}" />
+					<p:commandButton value="Cancelar"
+						actionListener="#{usuarioController.limpiar()}"
+						icon="fa fw-fa fa-times-circle" immediate="true"
+						onclick="PF('wdialogEditar').hide();"
+						update=":frmPrincipal:tabla, editar" />
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
+
+
+	</ui:composition>
+</f:view>
+</html>

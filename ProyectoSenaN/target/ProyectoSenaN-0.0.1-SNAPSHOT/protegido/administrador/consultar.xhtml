@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
+	<ui:composition template="./../../WEB-INF/templates/plantilla.xhtml">
+			<ui:define name="content">
+		
+			
+				<h1>Consultar Teléfonos</h1>
+				<h:form>
+					<h:panelGrid columns="3">
+					<p:outputLabel value="Persona"/>
+						
+					<p:selectOneMenu filter="true" filterMatchMode="contains" value="#{consultarController.codigoPersona}">
+						<f:selectItems value="#{consultarController.listaPersona}" var="per" itemLabel="#{per.nombre}''#{per.apellido}"  itemValue="#{per.codigoPersona}"/>
+						
+						</p:selectOneMenu>
+						
+						<p:commandButton value="Buscar" update="lista"  actionListener="#{consultarController.buscarTelefono()}"/>
+					</h:panelGrid>
+							
+							<p:dataList id="lista" emptyMessage="No ahi resultados a mostrar" value="#{consultarController.listaTelefonos}" var="tel">
+								 #{tel.numero}
+							
+							</p:dataList>
+				
+				</h:form>
+			</ui:define>
+	</ui:composition>
+
+</html>

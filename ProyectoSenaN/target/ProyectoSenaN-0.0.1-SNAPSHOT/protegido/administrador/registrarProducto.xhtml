@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+	 <f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Registrar Productos</title>
+		</f:facet> 
+		<h:outputStylesheet library="css" name="menu.css" />
+	</h:head>
+
+	<ui:composition template="./../../WEB-INF/templates/plantilla2.xhtml">
+
+		<ui:define name="bodyJR">
+
+			<h:form id="frmPrincipal">
+
+				<div id="grande">
+					<div align="center" id="principal">
+						Producto
+					</div>
+					
+				<div align="right" id="divBoton">	
+					<p:commandLink   
+						onclick="PF('wdialog').show();"
+						update=":frmSecundario" >
+						<h:graphicImage  library="images" name="add.png" /> 
+						
+						</p:commandLink>
+
+					</div>
+					<p:dataTable id="tabla" emptyMessage="Ningún producto registrado" paginator="true"
+						value="#{productoController.listaProducto}" var="prd">
+
+						<p:column headerText="Producto" 
+							filterMatchMode="contains">
+
+							<h:outputText value="#{prd.tipoProducto.nombre}" />
+						</p:column>
+						
+						<p:column headerText="Marca" 
+							filterMatchMode="contains">
+							<h:outputText value="#{prd.marca}" />
+						</p:column>
+						
+						<p:column headerText="Referencia" 
+							filterMatchMode="contains">
+							<h:outputText value="#{prd.referencia}" />
+						</p:column>
+						
+						<p:column headerText="Color" 
+							filterMatchMode="contains">
+							<h:outputText value="#{prd.color}" />
+						</p:column>
+						
+						<p:column headerText="Talla" 
+							filterMatchMode="contains">
+							<h:outputText value="#{prd.talla}" />
+						</p:column>
+						
+
+						<p:column headerText="Opciones" exportable="false">
+
+							<div id="uno">
+								<p:commandLink 
+									actionListener="#{productoController.leerProducto(prd)}"
+									oncomplete="PF('wdialogEditar').show();" update="dialogo2">
+									 <h:graphicImage  library="images" name="edit22.png" /> 
+								</p:commandLink>
+							</div>
+							
+							<div id="dos">
+
+								<p:commandLink 
+									actionListener="#{productoController.eliminar(prd)}"
+									update="tabla">
+									<h:graphicImage  library="images" name="borrar.png" />
+								</p:commandLink>
+							</div>
+
+						</p:column>
+
+					</p:dataTable>
+					
+					<h:commandLink id="excel">
+       					 <p:graphicImage library="images" name="excell.png"/>
+        					<p:dataExporter type="xls" target="tabla" fileName="productos"/>
+    					</h:commandLink>
+
+
+				</div>
+			</h:form>
+
+			<p:dialog id="dialogo" widgetVar="wdialog" appendTo="@(body)"
+				header="Nuevo Producto" modal="true" resizable="false"
+				closeOnEscape="true" showEffect="true">
+
+				<h:form id="frmSecundario">
+					<p:growl id="mensaje" autoUpdate="true" severity="info, fatal"
+						showSummary="true" showDetail="true" />
+					<p:panelGrid id="p1" columns="3">
+
+
+
+						<p:outputLabel for="txtReferencia" value="Referencia" />
+						<p:inputText id="txtReferencia" required="true"
+							value="#{productoController.producto.referencia}"
+							requiredMessage="Campo requerido" />
+						<p:messages for="txtReferencia" />
+
+						<p:outputLabel for="txtColor" value="Color" />
+						<p:inputText id="txtColor" required="true"
+							value="#{productoController.producto.color}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtColor" />
+
+						<p:outputLabel for="txtTalla" value="Talla" />
+						<p:inputText id="txtTalla" required="true"
+							value="#{productoController.producto.talla}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtTalla" />
+
+						<p:outputLabel for="txtPrecioC" value="Precio Compra" />
+						<p:inputText id="txtPrecioC" required="true"
+							value="#{productoController.producto.precioCompra}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtPrecioC" />
+
+						<p:outputLabel for="txtPrecioV" value="Precio Venta" />
+						<p:inputText id="txtPrecioV" required="true"
+							value="#{productoController.producto.precioVenta}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtPrecioV" />
+
+
+						<p:outputLabel for="txtMarca" value="Marca" />
+						<p:inputText id="txtMarca" required="true"
+							value="#{productoController.producto.marca}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtMarca" />
+
+						<p:outputLabel for="lstSucursal" value="Sucursal" />
+						<p:selectOneMenu id="lstSucursal" required="true"
+							value="#{productoController.sucursal.idSucursal}"
+							requiredMessage="Campo requerido">
+							<f:selectItem itemLabel="Seleccion"
+								itemValue="#{null}" noSelectionOption="true" />
+							<f:selectItems value="#{productoController.listaSucursal}"
+								var="suc" itemValue="#{suc.idSucursal}"
+								itemLabel="#{suc.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstSucursal" />
+
+
+						<p:outputLabel for="lstTipoProducto" value="Tipo Producto" />
+						<p:selectOneMenu id="lstTipoProducto" required="true"
+							value="#{productoController.tipoProducto.idTipoProducto}"
+							requiredMessage="Campo requerido">
+							<f:selectItem itemLabel="Seleccion" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{productoController.listaTipoProducto}"
+								var="tp" itemValue="#{tp.idTipoProducto}"
+								itemLabel="#{tp.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstTipoProducto" />
+
+						<p:outputLabel for="lstProveedor" value="Tipo Proveedor" />
+						<p:selectOneMenu id="lstProveedor" required="true"
+							value="#{productoController.proveedor.idProveedor}"
+							requiredMessage="Campo requerido">
+							<f:selectItem itemLabel="Seleccion" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{productoController.listaProveedor}"
+								var="pv" itemValue="#{pv.idProveedor}"
+								itemLabel="#{pv.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstProveedor" />
+						
+						
+						<p:outputLabel for="txtCantidad" value="Cantidad" />
+						<p:inputText id="txtCantidad" required="true"
+							value="#{productoController.producto.cantidad}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtCantidad" />
+
+						
+
+
+					</p:panelGrid>
+					<p:commandButton value="Registrar"
+						update=":frmPrincipal:tabla, :frmSecundario"
+						icon="fa fa-fw fa-save"
+						actionListener="#{productoController.registrar()}" />
+					<p:commandButton value="Cancelar"
+						actionListener="#{productoController.limpiar()}"
+						icon="fa fw-fa fa-times-circle" immediate="true"
+						onclick="PF('wdialog').hide();" update="p1" />
+				</h:form>
+			</p:dialog>
+
+			<p:dialog id="dialogo2" widgetVar="wdialogEditar" appendTo="@(body)"
+				header="Modificar Producto" modal="true" resizable="false"
+				closeOnEscape="true" showEffect="true">
+
+				<h:form id="frmEditar">
+					<p:growl id="mensaje1" autoUpdate="true" severity="info, fatal"
+						showSummary="true" showDetail="true" />
+					<h:inputHidden value="#{productoController.producto.idProducto}" />
+					<h:inputHidden value="#{productoController.producto.codigo}" />
+					<p:panelGrid id="editar" columns="3">
+
+
+
+					<p:outputLabel for="txtReferenciaEditar" value="Referencia" />
+						<p:inputText id="txtReferenciaEditar" required="true"
+							value="#{productoController.producto.referencia}"
+							requiredMessage="Campo requerido" />
+						<p:messages for="txtReferenciaEditar" />
+
+						<p:outputLabel for="txtColorEditar" value="Color" />
+						<p:inputText id="txtColorEditar" required="true"
+							value="#{productoController.producto.color}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtColorEditar" />
+
+						<p:outputLabel for="txtTallaEditar" value="Talla" />
+						<p:inputText id="txtTallaEditar" required="true"
+							value="#{productoController.producto.talla}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtTallaEditar" />
+
+						<p:outputLabel for="txtPrecioCEditar" value="Precio Compra" />
+						<p:inputText id="txtPrecioCEditar" required="true"
+							value="#{productoController.producto.precioCompra}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtPrecioCEditar" />
+
+						<p:outputLabel for="txtPrecioVEditar" value="Precio Venta" />
+						<p:inputText id="txtPrecioVEditar" required="true"
+							value="#{productoController.producto.precioVenta}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtPrecioVEditar" />
+
+
+						<p:outputLabel for="txtMarcaEditar" value="Marca" />
+						<p:inputText id="txtMarcaEditar" required="true"
+							value="#{productoController.producto.marca}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtMarcaEditar" />
+
+						<p:outputLabel for="lstSucursalEditar" value="Sucursal" />
+						<p:selectOneMenu id="lstSucursalEditar" required="true"
+							value="#{productoController.sucursal.idSucursal}"
+							requiredMessage="Campo requerido">
+							<f:selectItems value="#{productoController.listaSucursal}"
+								var="suc" itemValue="#{suc.idSucursal}"
+								itemLabel="#{suc.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstSucursalEditar" />
+
+
+						<p:outputLabel for="lstTipoProductoEditar" value="Tipo Producto" />
+						<p:selectOneMenu id="lstTipoProductoEditar" required="true"
+							value="#{productoController.tipoProducto.idTipoProducto}"
+							requiredMessage="Campo requerido">
+							<f:selectItems value="#{productoController.listaTipoProducto}"
+								var="tp" itemValue="#{tp.idTipoProducto}"
+								itemLabel="#{tp.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstTipoProductoEditar" />
+
+						<p:outputLabel for="lstProveedorEditar" value="Tipo Proveedor" />
+						<p:selectOneMenu id="lstProveedorEditar" required="true"
+							value="#{productoController.proveedor.idProveedor}"
+							requiredMessage="Campo requerido">
+							<f:selectItems value="#{productoController.listaProveedor}"
+								var="pv" itemValue="#{pv.idProveedor}"
+								itemLabel="#{pv.nombre}" />
+
+						</p:selectOneMenu>
+						<p:message for="lstProveedorEditar" />
+						
+						
+						<p:outputLabel for="txtCantidadEditar" value="Cantidad" />
+						<p:inputText id="txtCantidadEditar" required="true"
+							value="#{productoController.producto.cantidad}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtCantidadEditar" />
+					</p:panelGrid>
+					
+					<p:commandButton value="Modificar"
+						update=":frmPrincipal:tabla, :frmEditar" icon="fa fa-fw fa-save"
+						actionListener="#{productoController.modificar()}" />
+					<p:commandButton value="Cancelar"
+						actionListener="#{productoController.limpiar()}"
+						icon="fa fw-fa fa-times-circle" immediate="true"
+						onclick="PF('wdialogEditar').hide();"
+						update=":frmPrincipal:tabla, editar" />
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
+
+
+	</ui:composition>
+</f:view>
+</html>

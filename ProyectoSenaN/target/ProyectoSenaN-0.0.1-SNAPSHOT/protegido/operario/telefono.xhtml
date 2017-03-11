@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="./../../WEB-INF/templates/plantilla.xhtml">
+			<ui:define name="content">
+			<h:form id="frmPrincipal">
+			
+				<h1>Teléfonos</h1>
+					<p:commandButton icon="fa fw-fa fa-plus-circle" value="Nuevo"   onclick="PF('wdialog').show();" actionListener="#{telefonoController.cambiarAccion()}"  update=":frmSecundario" />
+					
+					
+					<p:dataTable id="tabla" emptyMessage="Ningún empleado registrado" value="#{usuarioController.listaEmpleados}" var="emp">
+						
+						<p:column headerText="Nombre" filterBy="#{emp.nombre}" filterMatchMode="contains">
+							
+							<h:outputText value="#{emp.nombre}" />
+						</p:column>
+						
+						
+						
+						<p:column headerText="Editar">
+							
+							<p:commandLink value="Editar" actionListener="#{telefonoController.leerTelefono(tel)}" oncomplete="PF('wdialog').show();" update="dialogo">
+							
+							</p:commandLink>
+							
+						</p:column>
+						
+						
+					
+					</p:dataTable>
+			
+			
+			
+			</h:form>
+			
+				<p:dialog id="dialogo" widgetVar="wdialog" header="Nuevo Teléfono" modal="true" resizable="false" closeOnEscape="true">
+					<h:form id="frmSecundario" >
+					
+						<p:panelGrid id="uno" columns="2">
+							<p:outputLabel for="txtNombre" value="Nombre" />
+							<p:inputText id="txtNombre"   required="true" value="#{usuarioController.empleado.nombre}"  />
+							
+							<p:outputLabel for="txtApellido" value="Apellido" />
+							<p:inputText id="txtApellido"   required="true" value="#{usuarioController.empleado.apellido}"  />
+							
+							<p:outputLabel for="txtDocumento" value="Documento" />
+							<p:inputText id="txtDocumento"   required="true" value="#{usuarioController.empleado.documento}"  />
+							
+							<p:outputLabel for="txtTelefono" value="Telefono" />
+							<p:inputMask id="txtTelefono"  mask="9?99999999" slotChar=""   required="true" value="#{usuarioController.empleado.telefono}"  />
+							
+							<p:outputLabel for="txtCorreo" value="Correo" />
+							<p:inputText id="txtCorreo"  required="true" value="#{usuarioController.empleado.correo}"  />
+							
+							<p:outputLabel for="lstSucursal" value="Sucursal" />
+							<p:selectOneMenu id="lstSucursal"  value="#{buscarController.codigoCategoria}">
+								<f:selectItems value="#{usuarioController.listaSucursal}" var="suc" itemValue="#{suc.idSucursal}" itemLabel="#{suc.nombre}"/>
+								<f:selectItem itemLabel="Seleccion" itemValue="#{null}" noSelectionOption="true" />
+							</p:selectOneMenu>
+							
+							
+							<p:outputLabel for="lstTipoUsuario" value="Tipo Usuario" />
+							<p:selectOneMenu id="lstTipoUsuario"  value="#{buscarController.codigoCategoria}">
+								<f:selectItems value="#{usuarioController.listaTipoUsuario}" var="tps" itemValue="#{tps.idTipoUsuario}" itemLabel="#{tps.descripcion}"/>
+								<f:selectItem itemLabel="Seleccion" itemValue="#{null}" noSelectionOption="true" />
+							</p:selectOneMenu>
+							
+							
+							
+							<p:commandButton value="Registrar" update=":frmPrincipal:tabla"  icon="fa fw-fa fa-check-circle" actionListener="#{usuarioController.registrar()}" oncomplete="PF('wdialog').hide();"  rendered="#{telefonoController.accion == 'R'}"/>
+							
+							<!-- <p:commandButton value="Modificar" update=":frmPrincipal:tabla"  icon="fa fw-fa fa-check-circle" actionListener="#{telefonoController.modificar()}" oncomplete="PF('wdialog').hide();"  rendered="#{telefonoController.accion == 'M'}"/> -->
+							
+							
+							<p:commandButton value="Cancelar" icon="fa fw-fa fa-times-circle" immediate="true" onclick="PF('wdialog').hide();"/>
+						</p:panelGrid>
+					
+					</h:form>
+				</p:dialog>
+				
+			
+				
+			</ui:define>
+	</ui:composition>
+
+</html>

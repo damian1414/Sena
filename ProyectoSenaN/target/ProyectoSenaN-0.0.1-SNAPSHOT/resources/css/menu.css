@@ -1,0 +1,67 @@
+.ui-helper-reset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    line-height: 1.3;
+    text-decoration: none;
+    font-size: 70% !important;
+    list-style: none;
+}
+.ui-corner-all {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:1.5px !important; 
+}
+.ui-panel-titlebar {
+    padding: 0em 0em 0em !important;
+}
+.panel{
+    margin: 0 auto;
+}
+#uno{
+	float: left;
+	margin-right:10%;
+}
+#dos{
+	float: left;
+	 border-top-color: red;
+  border-right-color: red;
+  border-bottom-color: red;
+  border-left-color: red;
+}
+#principal{
+	background: #929292;
+	color: white;
+	border-radius:4px;
+}
+#grande{
+	width: 100%;
+	top: 20%;
+}
+#divBoton{
+	margin-top:2%;
+}
+#detalleVenta{
+	background: #929292;
+	color: white;
+	border-radius:4px;
+	width: 550px;
+}
+
+#detalleVenta1{
+	background: #929292;
+	color: white;
+	.ui-widget-content:#ffffff;
+}
+/* .ui-state-hover{
+	background: green !important;
+	color: green !important;
+	
+}
+.ui-state-focus{
+	background: green !important;
+	color: green !important;
+	
+} */
+ 

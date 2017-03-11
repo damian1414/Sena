@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Registrar Venta</title>
+		</f:facet>
+		<h:outputStylesheet library="css" name="menu.css" />
+	</h:head>
+
+	<ui:composition template="./../../WEB-INF/templates/plantilla2.xhtml">
+
+		<ui:define name="bodyJR">
+
+			<h:form id="frmPrincipal">
+
+				<div id="grande">
+					<div align="center" id="principal">Cliente</div>
+
+					<div align="right" id="divBoton">
+						<p:commandLink onclick="PF('wdialog').show();"
+							actionListener="#{ventasController.instanciarCliente()}"
+							update=":frmSecundario">
+							<h:graphicImage library="images" name="add.png" />
+
+						</p:commandLink>
+
+					</div>
+					<p:dataTable  id="tabla" emptyMessage="Ningún cliente registrado"
+						value="#{ventasController.listaClientes}" var="cli">
+
+						<p:column headerText="Nombre" sortBy="#{cli.nombre}" filterMatchMode="contains">
+
+							<h:outputText value="#{cli.nombre}" />
+						</p:column>
+
+						<p:column filterBy="#{cli.documento}"  headerText="Documento"  filterMatchMode="contains">
+							<h:outputText value="#{cli.documento}" />
+						</p:column>
+
+						<p:column headerText="Telefono" filterMatchMode="contains">
+							<h:outputText value="#{cli.telefono}" />
+						</p:column>
+
+						<p:column headerText="Dirección" filterMatchMode="contains">
+							<h:outputText value="#{cli.direccion}" />
+						</p:column>
+						<p:column headerText="Opciones">
+							
+							<p:commandLink id="pld"  actionListener="#{ventasController.leerCliente(cli)}" >
+									 <h:graphicImage  library="images" name="proximo.png" /> 
+						</p:commandLink> 
+						
+						</p:column>
+
+					</p:dataTable>
+
+
+				</div>
+			</h:form>
+
+
+
+			<p:dialog id="dialogo" widgetVar="wdialog" appendTo="@(body)" 
+				header="Nuevo Cliente" modal="true" resizable="false"
+				closeOnEscape="true" showEffect="true">
+
+				<h:form id="frmSecundario">
+					<p:growl id="mensaje" autoUpdate="true" severity="info, fatal"
+						showSummary="true" showDetail="true" />
+					<p:panelGrid id="p1" columns="3">
+					
+						<p:outputLabel for="txtNombre" value="Nombre" />
+						<p:inputText id="txtNombre" required="true"
+							value="#{ventasController.cliente.nombre}"
+							requiredMessage="Campo requerido" />
+						<p:messages for="txtNombre" />
+
+						<p:outputLabel for="txtDocumento" value="Documento" />
+						<p:inputText id="txtDocumento" required="true"
+							value="#{ventasController.cliente.documento}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtDocumento" />
+
+						<p:outputLabel for="txtTelefono" value="Télefono" />
+						<p:inputMask id="txtTelefono" required="true" mask="9?99999999" slotChar=""
+							value="#{ventasController.cliente.telefono}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtTelefono" />
+
+						<p:outputLabel for="txtDireccion" value="Dirección" />
+						<p:inputText id="txtDireccion" required="true"
+							value="#{ventasController.cliente.direccion}"
+							requiredMessage="Campo requerido" />
+						<p:message for="txtDireccion" />
+
+					</p:panelGrid>
+					<p:commandButton value="Registrar Cliente"
+						update=":frmPrincipal:tabla, :frmSecundario"
+						icon="fa fa-fw fa-save"
+						actionListener="#{ventasController.registrar()}" />
+					<p:commandButton value="Cancelar"
+						actionListener="#{ventasController.cliente}"
+						icon="fa fw-fa fa-times-circle" immediate="true"
+						onclick="PF('wdialog').hide();" update="p1" />
+						
+						
+				</h:form>
+			</p:dialog>
+		
+			 
+			 
+
+
+		</ui:define>
+
+
+	</ui:composition>
+</f:view>
+</html>

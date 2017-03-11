@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="./../../WEB-INF/templates/plantilla.xhtml">
+	
+			<ui:define name="content">
+				<h:form>
+				<p:messages id="mensaje" autoUpdate="true"  severity="info, fatal" showSummary="true" showDetail="true"/>
+				
+					<h:panelGrid columns="1">
+						<p:outputLabel for="cal" value="Fecha"/>
+						<p:calendar  id="cal" locale="es" required="true" value="#{buscarController.fechaBuscar}" />
+						
+						<p:outputLabel for="cbCategoria" value="Categoria" />
+							<p:selectOneMenu id="cbCategoria"  value="#{buscarController.codigoCategoria}">
+								<f:selectItems value="#{buscarController.listaCategoria}" var="cat" itemValue="#{cat.codigoCategoria}" itemLabel="#{cat.nombre}"/>
+								<f:selectItem itemLabel="Seleccion" itemValue="#{null}" noSelectionOption="true" />
+							</p:selectOneMenu>
+							
+							
+							<p:commandButton icon="fa fa-fw fa-search" value="Buscar" actionListener="#{buscarController.buscar()}" update="grid" styleClass="btn btn-primary"/>
+					</h:panelGrid>
+					
+					
+					<p:dataGrid id="grid" value="#{buscarController.listaNotas}" var="nota">
+						
+						<p:panel header="#{nota.categoria.nombre}" style="text-align:center">
+						<center>
+						  <p:panelGrid columns="2" >
+							<p:outputLabel value="Encabezado" />
+							<p:outputLabel value="#{nota.encabezado}" />
+							<p:outputLabel value="Cuerpo" />
+							<p:outputLabel value="#{nota.cuerpo}" />
+							<p:outputLabel value="Comentario" />
+							<p:inputTextarea value="#{nota.comentarioAdmin}" disabled="true"/>
+							<p:outputLabel value="Valorización" />
+							<p:rating value="#{nota.valorizacion}" readonly="true"/>
+						  </p:panelGrid>	
+						  </center>
+						</p:panel>
+						
+					</p:dataGrid> 
+				
+				
+				</h:form>
+				
+				<h:outputScript library="js" name="spanishLocale.js" />
+			</ui:define>
+	</ui:composition>
+
+</html>

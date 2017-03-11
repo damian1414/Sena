@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+<meta http-equiv="Content-Type"  content="text/html; charset-UTF-8" />
+<h:outputStylesheet name="./css/default.css" />
+<h:outputStylesheet name="./css/cssLayout.css" />
+<title> Faces Template</title>
+<f:event type="preRenderView" listener="#{plantillaController.verificarSession()}" />
+</h:head>
+
+
+<h:body>
+	<div id="top" >
+		<ui:insert name="top">
+		<h:form>
+		<p:menubar  model="#{menuController.model}" style="background-color: aqua;">
+		<f:facet name="options">
+			 <h:graphicImage library="images" name="user.jpg" title="#{menuController.mostrarUsuarioLogin()}">
+					#{menuController.mostrarUsuarioLogin()}
+				</h:graphicImage> 
+				<p:spacer  height="20" />
+				
+				
+				
+				<p:commandButton title="Cerrar Session" actionListener="#{menuController.cerrarSession()}" icon="fa fa-power-off" action="/index?faces-redirect=true" />
+				
+				
+		</f:facet>
+		</p:menubar>	
+		</h:form>
+	</ui:insert>
+		
+	</div>
+	
+	<div id="content" class="center_content">
+
+		<ui:insert name="content">Content</ui:insert>
+		
+	</div>
+	
+	<div id="bottom" style="text-align: center">
+		<ui:insert name="bottom">
+		<p>Ejemplo de primfaces</p>
+		</ui:insert>
+	
+	</div>
+
+
+
+
+</h:body>
+</html>

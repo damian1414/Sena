@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cf94460d-7dd0-4340-bdac-3dacf95922c0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="16"/>
+	<parameter name="txtVendedor" class="java.lang.String"/>
+	<parameter name="txtlogo" class="java.net.URL"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Users\\Ingenian Software\\Desktop\\Factura\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cliente" class="com.prueba.model.Cliente">
+		<fieldDescription><![CDATA[cliente]]></fieldDescription>
+	</field>
+	<field name="total" class="java.lang.Long">
+		<fieldDescription><![CDATA[total]]></fieldDescription>
+	</field>
+	<field name="listaProductos" class="java.util.List">
+		<fieldDescription><![CDATA[listaProductos]]></fieldDescription>
+	</field>
+	<field name="venta" class="com.prueba.model.Venta">
+		<fieldDescription><![CDATA[venta]]></fieldDescription>
+	</field>
+	<field name="usuario" class="com.prueba.model.Usuario">
+		<fieldDescription><![CDATA[usuario]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="beca8174-d8cb-4429-b495-35ef338333f1" positionType="Float" stretchType="RelativeToTallestObject" x="315" y="10" width="83" height="25" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial Black" size="10"/>
+				</textElement>
+				<text><![CDATA[FACTURA N°]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="d1157a00-555e-4102-a358-f1504e38c475" x="0" y="0" width="165" height="136"/>
+				<imageExpression><![CDATA[$P{txtlogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="39cbcff4-d162-4814-bca4-fa1f5970577d" x="398" y="10" width="100" height="25"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{venta}.getIdVenta()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy HH.mm.ss">
+				<reportElement uuid="a7913a5e-2c91-4f9c-a9ba-57d93d121fe8" x="315" y="72" width="240" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b12559be-1b1b-4870-af74-a61a359335f4" x="315" y="52" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bogotá D.C.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="6dbda1d5-7049-40f7-b8be-9202a66fbd73" positionType="Float" stretchType="RelativeToTallestObject" x="415" y="92" width="140" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{usuario}.getEmpleado().getSucursal().getNombre()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="be700a05-798a-4667-bde6-03389d1953a0" x="315" y="92" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sucursal]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="7" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="62" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="4336dfa7-591a-44c6-8055-4ffc4148c664" x="0" y="27" width="555" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="5fcf8b44-21af-46ad-be96-39aa1a9d9fd7" x="0" y="0" width="555" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="41f92ca5-2036-4906-93b2-c8d7a0ec5d46" positionType="Float" stretchType="RelativeToTallestObject" x="113" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}.getNombre()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="38c9cdae-3b9d-40a2-bd94-06b9df9583c9" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d79790e4-017a-444a-8f14-c167e5840927" x="243" y="0" width="138" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de Documento]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f22733f3-9109-42aa-87e2-67f7e6e7e3a8" positionType="Float" stretchType="RelativeToTallestObject" x="398" y="0" width="137" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}.getDocumento()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="349eb87a-f519-480b-a3f3-e24db41631d0" positionType="Float" stretchType="RelativeToTallestObject" x="116" y="29" width="213" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{usuario}.getEmpleado().getNombre()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="4387bd7d-5e6c-4897-80a8-77d8b6ac5dec" x="0" y="27" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vendedor]]></text>
+			</staticText>
+		</band>
+		<band height="28">
+			<subreport>
+				<reportElement uuid="13e42566-e5c0-403b-906b-6657520e7140" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="555" height="27" isRemoveLineWhenBlank="true"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaProductos})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "producto.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="34">
+			<rectangle radius="10">
+				<reportElement uuid="69a854e7-581f-45e4-bebb-75ed0837386f" x="1" y="0" width="246" height="28"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="8bb2acaf-116f-4c99-925f-fa78523157b2" positionType="Float" stretchType="RelativeToTallestObject" x="13" y="3" width="100" height="20" forecolor="#000000" backcolor="#006666"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="6656c583-9898-44b0-96a7-82d1c6019897" positionType="Float" stretchType="RelativeToTallestObject" x="116" y="3" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

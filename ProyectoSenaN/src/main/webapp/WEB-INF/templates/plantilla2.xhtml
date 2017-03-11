@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<f:view contentType="text/html">
+	<h:head>
+		<!-- <f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>PrimeFaces</title>
+		</f:facet> -->
+		<h:outputStylesheet library="css" name="menu.css" />
+	</h:head>
+
+	<h:body>
+
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north" size="100" resizable="true"
+				closable="true" collapsible="true">
+                    Header
+                    
+                <ui:insert name="top">
+                <h:form>
+                   <!-- <f:facet name="options">   -->
+                   
+                   <div align="right">
+				<h:graphicImage library="images" name="user.jpg"
+						title="#{menuController.mostrarUsuarioLogin()}">
+						
+						
+						#{menuController.mostrarUsuarioLogin()}
+				</h:graphicImage>
+					 <p:spacer height="10" />
+
+
+
+					<p:commandButton title="Cerrar Session"
+						actionListener="#{menuController.cerrarSession()}"
+						icon="fa fa-power-off" action="/index?faces-redirect=true" /> 
+						
+			<!-- 	</f:facet>	 -->
+			</div>
+				</h:form>	
+				</ui:insert>
+
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south" size="100" closable="true"
+				collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+			<p:layoutUnit position="west" size="190" header="Menu"
+				collapsible="true">
+
+				<p:menu toggleable="true" style="font"
+					model="#{menuController.model}">
+
+				</p:menu>
+
+			</p:layoutUnit>
+
+			<p:layoutUnit position="center">
+				<ui:insert name="bodyJR"></ui:insert>
+			</p:layoutUnit>
+
+		</p:layout>
+
+	</h:body>
+
+</f:view>
+
+</html>
